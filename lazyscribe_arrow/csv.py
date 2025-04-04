@@ -1,5 +1,6 @@
 """Custom artifact handlers for CSVs."""
 
+import logging
 from datetime import datetime
 from typing import Any, ClassVar
 
@@ -9,6 +10,8 @@ from lazyscribe._utils import utcnow
 from lazyscribe.artifacts.base import Artifact
 from pyarrow import csv
 from slugify import slugify
+
+LOG = logging.getLogger(__name__)
 
 
 @define(auto_attribs=True)
@@ -85,9 +88,11 @@ class CSVArtifact(Artifact):
             perform a zero-copy transformation from the native obejct to a PyArrow
             Table.
         """
-        if hasattr(obj, "__arrow_c_array__") or hasattr(obj, "__arrow_c_stream__"):
-            data = pa.table(obj)
+        if isinstance(obj, pa.Table):
+            LOG.debug("Provided object is already a PyArrow table.")
+        elif hasattr(obj, "__arrow_c_array__") or hasattr(obj, "__arrow_c_stream__"):
+            obj = pa.table(obj)
         else:
             raise ValueError("Please provide a compatible data structure.")
 
-        csv.write_csv(data, buf, **kwargs)
+        csv.write_csv(obj, buf, **kwargs)
