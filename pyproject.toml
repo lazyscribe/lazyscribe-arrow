@@ -42,6 +42,7 @@ qa = [
     "uv",
 ]
 tests = [
+	"pandas",
     "pytest",
     "pytest-cov",
     "time-machine"
@@ -61,7 +62,8 @@ dev = [
 requires = ["setuptools>=64.0.0"]
 build-backend = "setuptools.build_meta"
 
-# Configure entrypoints
+[project.entry-points."lazyscribe.artifact_type"]
+csv = "lazyscribe_arrow:CSVArtifact"
 
 ##############################################################################
 # Setuptools configuration
@@ -139,7 +141,7 @@ convention = "numpy"
 # MYPY -----------------------------------------------------------------------
 
 [tool.mypy]
-python_version = 3.10
+python_version = "3.10"
 warn_return_any = true
 warn_unused_configs = true
 ignore_missing_imports = true
