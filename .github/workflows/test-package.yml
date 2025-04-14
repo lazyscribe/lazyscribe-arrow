@@ -39,7 +39,9 @@ jobs:
             - name: Check static typing
               run: python -m mypy lazyscribe_arrow
             - name: Run unit testing
-              run: python -m pytest tests --cov=./ --cov-report=xml
+              run: python -m pytest tests --ignore=tests/test_lazyscribe_integration --cov=./ --cov-report=xml
+            - name: Run integration testing
+              run: python -m pytest tests/test_lazyscribe_integration
             - name: Run Codecov
               uses: codecov/codecov-action@v3
               with:
