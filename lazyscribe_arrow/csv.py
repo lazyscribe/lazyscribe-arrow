@@ -93,6 +93,9 @@ class CSVArtifact(Artifact):
         elif hasattr(obj, "__arrow_c_array__") or hasattr(obj, "__arrow_c_stream__"):
             obj = pa.table(obj)
         else:
-            raise ValueError("Please provide a compatible data structure.")
+            raise ValueError(
+                f"Object of type `{type(obj)}` cannot be easily coerced into a PyArrow Table. "
+                "Please provide an object that implements the Arrow PyCapsule Interface."
+            )
 
         csv.write_csv(obj, buf, **kwargs)
