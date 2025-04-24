@@ -9,6 +9,7 @@ from attrs import define
 from lazyscribe._utils import utcnow
 from lazyscribe.artifacts.base import Artifact
 from pyarrow import csv
+from pyarrow.interchange import from_dataframe
 from slugify import slugify
 
 LOG = logging.getLogger(__name__)
@@ -92,10 +93,13 @@ class CSVArtifact(Artifact):
             LOG.debug("Provided object is already a PyArrow table.")
         elif hasattr(obj, "__arrow_c_array__") or hasattr(obj, "__arrow_c_stream__"):
             obj = pa.table(obj)
+        elif hasattr(obj, "__dataframe__"):
+            obj = from_dataframe(obj)
         else:
             raise ValueError(
                 f"Object of type `{type(obj)}` cannot be easily coerced into a PyArrow Table. "
-                "Please provide an object that implements the Arrow PyCapsule Interface."
+                "Please provide an object that implements the Arrow PyCapsule Interface or the "
+                "Dataframe Interchange Protocol."
             )
 
         csv.write_csv(obj, buf, **kwargs)
