@@ -64,6 +64,7 @@ build-backend = "setuptools.build_meta"
 
 [project.entry-points."lazyscribe.artifact_type"]
 csv = "lazyscribe_arrow:CSVArtifact"
+parquet = "lazyscribe_arrow:ParquetArtifact"
 
 ##############################################################################
 # Setuptools configuration
