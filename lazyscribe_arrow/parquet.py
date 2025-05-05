@@ -1,14 +1,14 @@
-"""Custom artifact handlers for CSVs."""
+"""Custom artifact handlers for parquets."""
 
 import logging
 from datetime import datetime
 from typing import Any, ClassVar
 
 import pyarrow as pa
+import pyarrow.parquet as pq
 from attrs import define
 from lazyscribe._utils import utcnow
 from lazyscribe.artifacts.base import Artifact
-from pyarrow import csv
 from pyarrow.interchange import from_dataframe
 from slugify import slugify
 
@@ -16,11 +16,11 @@ LOG = logging.getLogger(__name__)
 
 
 @define(auto_attribs=True)
-class CSVArtifact(Artifact):
-    """Arrow-powered CSV handler."""
+class ParquetArtifact(Artifact):
+    """Arrow-powered Parquet handler."""
 
-    alias: ClassVar[str] = "csv"
-    suffix: ClassVar[str] = "csv"
+    alias: ClassVar[str] = "parquet"
+    suffix: ClassVar[str] = "parquet"
     binary: ClassVar[bool] = True
     output_only: ClassVar[bool] = False
 
@@ -52,7 +52,7 @@ class CSVArtifact(Artifact):
 
     @classmethod
     def read(cls, buf, **kwargs) -> pa.Table:
-        """Read in the CSV file.
+        """Read in the parquet file.
 
         Parameters
         ----------
@@ -66,11 +66,11 @@ class CSVArtifact(Artifact):
         pyarrow.lib.Table
             A ``pyarrow`` table with the data.
         """
-        return csv.read_csv(buf, **kwargs)
+        return pq.read_table(buf, **kwargs)
 
     @classmethod
     def write(cls, obj, buf, **kwargs):
-        """Write the CSV file using pyarrow.
+        """Write the parquet file using pyarrow.
 
         Parameters
         ----------
@@ -79,13 +79,15 @@ class CSVArtifact(Artifact):
         buf : file-like object
             The buffer from a ``fsspec`` filesystem.
         **kwargs
-            Keyword arguments for :py:meth:`pyarrow.csv.write_csv`.
+            Keyword arguments for :py:meth:`pyarrow.parquet.write_table`.
 
         Raises
         ------
         ValueError
             Raised if the supplied object does not have ``__arrow_c_array__``
-            or ``__arrow_c_stream__`` attributes. These attributes allow us to
+            or ``__arrow_c_stream__`` attribute
+            or if the object does not
+            implement the dataframe interchange protocol. These attributes allow us to
             perform a zero-copy transformation from the native obejct to a PyArrow
             Table.
         """
@@ -102,4 +104,4 @@ class CSVArtifact(Artifact):
                 "Dataframe Interchange Protocol."
             )
 
-        csv.write_csv(obj, buf, **kwargs)
+        pq.write_table(obj, buf, **kwargs)

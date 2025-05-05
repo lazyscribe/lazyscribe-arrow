@@ -64,6 +64,7 @@ build-backend = "setuptools.build_meta"
 
 [project.entry-points."lazyscribe.artifact_type"]
 csv = "lazyscribe_arrow:CSVArtifact"
+parquet = "lazyscribe_arrow:ParquetArtifact"
 
 ##############################################################################
 # Setuptools configuration
@@ -85,7 +86,7 @@ readme = {file = ["README.md"], content-type = "text/markdown"}
 # COMMITIZEN -----------------------------------------------------------------
 
 [tool.commitizen]
-version = "0.1.0"
+version = "0.2.0"
 tag_format = "v$version"
 update_changelog_on_bump = true
 version_files = [
