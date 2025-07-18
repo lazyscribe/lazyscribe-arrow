@@ -10,7 +10,7 @@ importlib-metadata==8.5.0
     # via lazyscribe
 lazyscribe==1.1.0
     # via lazyscribe-arrow (pyproject.toml)
-pyarrow==20.0.0
+pyarrow==21.0.0
     # via lazyscribe-arrow (pyproject.toml)
 python-slugify==8.0.4
     # via
