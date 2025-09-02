@@ -12,6 +12,12 @@ from lazyscribe.artifacts.base import Artifact
 from pyarrow.interchange import from_dataframe
 from slugify import slugify
 
+from lazyscribe_arrow.protocols import (
+    ArrowArrayExportable,
+    ArrowStreamExportable,
+    SupportsInterchange,
+)
+
 LOG = logging.getLogger(__name__)
 
 
@@ -93,9 +99,9 @@ class ParquetArtifact(Artifact):
         """
         if isinstance(obj, pa.Table):
             LOG.debug("Provided object is already a PyArrow table.")
-        elif hasattr(obj, "__arrow_c_array__") or hasattr(obj, "__arrow_c_stream__"):
+        elif isinstance(obj, (ArrowArrayExportable, ArrowStreamExportable)):
             obj = pa.table(obj)
-        elif hasattr(obj, "__dataframe__"):
+        elif isinstance(obj, SupportsInterchange):
             obj = from_dataframe(obj)
         else:
             raise ValueError(
