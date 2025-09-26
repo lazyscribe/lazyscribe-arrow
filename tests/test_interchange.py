@@ -1,0 +1,51 @@
+"""Test object interchange with Arrow."""
+
+import zoneinfo
+from datetime import datetime
+
+import pyarrow as pa
+import time_machine
+from lazyscribe import Project
+
+from lazyscribe_arrow.interchange import to_table
+
+
+@time_machine.travel(
+    datetime(2025, 1, 20, 13, 23, 30, tzinfo=zoneinfo.ZoneInfo("UTC")), tick=False
+)
+def test_project_to_table_basic():
+    """Test converting a project to a table."""
+    project = Project("project.json", author="myself", mode="w")
+    with project.log("My experiment") as exp:
+        exp.log_parameter("my-param", 0)
+        exp.log_parameter("my-list-param", [0, 1, 2])
+        exp.log_metric("my-metric", 0.5)
+
+    table = to_table(project)
+
+    expected = pa.table(
+        {
+            "name": ["My experiment"],
+            "slug": ["my-experiment-20250120132330"],
+            "short_slug": ["my-experiment"],
+            "author": ["myself"],
+            "created_at": [
+                pa.scalar(
+                    datetime(2025, 1, 20, 13, 23, 30, tzinfo=zoneinfo.ZoneInfo("UTC")),
+                    type=pa.timestamp("s", tz="UTC"),
+                )
+            ],
+            "last_updated": [
+                pa.scalar(
+                    datetime(2025, 1, 20, 13, 23, 30, tzinfo=zoneinfo.ZoneInfo("UTC")),
+                    type=pa.timestamp("s", tz="UTC"),
+                )
+            ],
+            "last_updated_by": ["myself"],
+            "parameter-my-param": [0],
+            "parameter-my-list-param": [[0, 1, 2]],
+            "metric-my-metric": [0.5],
+        }
+    )
+
+    assert table == expected
