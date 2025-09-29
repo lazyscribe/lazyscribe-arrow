@@ -46,6 +46,7 @@ def _(obj: Project, /) -> pa.Table:
         "created_at": pa.timestamp("s", tz="UTC"),
         "last_updated": pa.timestamp("s", tz="UTC"),
         "last_updated_by": pa.string(),
+        "tags": pa.list_view(pa.string()),
     }
     # Look for the superset of available parameters and metrics
     field_map_: dict[str, str] = {}
@@ -72,6 +73,7 @@ def _(obj: Project, /) -> pa.Table:
             "created_at": [exp.created_at],
             "last_updated": [exp.last_updated],
             "last_updated_by": [exp.last_updated_by],
+            "tags": [exp.tags],
         }
         for field in schema:
             if field.name.startswith("parameter-"):

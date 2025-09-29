@@ -42,6 +42,7 @@ def test_project_to_table_basic():
                 )
             ],
             "last_updated_by": ["myself"],
+            "tags": [pa.scalar([], type=pa.list_view(pa.string()))],
             "parameter-my-param": [0],
             "parameter-my-list-param": [[0, 1, 2]],
             "metric-my-metric": [0.5],
