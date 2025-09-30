@@ -77,9 +77,7 @@ def _(obj: Project, /) -> pa.Table:
         }
         for field in schema:
             if field.name.startswith("parameter-"):
-                data_[field.name] = [
-                    exp.parameters.get(field_map_[field.name], pa.null())
-                ]
+                data_[field.name] = [exp.parameters.get(field_map_[field.name], None)]
             elif field.name.startswith("metric-"):
                 data_[field.name] = [exp.metrics.get(field_map_[field.name], pa.null())]
             else:
