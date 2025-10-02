@@ -1,54 +1,10 @@
 """Define methods for generating a PyArrow table from a project and/or repository."""
 
 from functools import singledispatch
-from typing import Any, Protocol
 
 import pyarrow as pa
+import pyarrow.compute as pc
 from lazyscribe import Project
-from slugify import slugify
-
-
-class HasMetricsParameters(Protocol):
-    """Class that has a parameters iterable."""
-
-    metrics: dict[str, int | float]
-    parameters: dict[str, Any]
-
-
-def _gen_metric_parameters_fields(
-    obj: HasMetricsParameters, fields: dict, field_map: dict[str, str]
-) -> tuple[dict, dict]:
-    """Generate the schema for parameters and/or metrics.
-
-    Parameters
-    ----------
-    obj : list[HasMetricsParameters]
-        A list of objects that has metrics and parameters.
-    fields : dict
-        The existing schema object.
-    field_map : dict
-        A dictionary mapping the field slug name to the attribute name in the
-        source object.
-
-    Returns
-    -------
-    dict
-        The updated ``fields`` dictionary.
-    dict
-        The field map.
-    """
-    for param_, value_ in obj.parameters.items():
-        if (param_slug_ := slugify(f"parameter-{param_}")) in fields:
-            continue
-        field_map[param_slug_] = param_
-        fields[param_slug_] = pa.scalar(value_).type
-    for metric_, value_ in obj.metrics.items():
-        if (metric_slug_ := slugify(f"metric-{metric_}")) in fields:
-            continue
-        field_map[metric_slug_] = metric_
-        fields[metric_slug_] = pa.scalar(value_).type
-
-    return fields, field_map
 
 
 @singledispatch
@@ -81,72 +37,15 @@ def _(obj: Project, /) -> pa.Table:
     pyarrow.Table
         The PyArrow table.
     """
-    # Create the schema
-    fields = {
-        "name": pa.string(),
-        "slug": pa.string(),
-        "short_slug": pa.string(),
-        "author": pa.string(),
-        "created_at": pa.timestamp("s", tz="UTC"),
-        "last_updated": pa.timestamp("s", tz="UTC"),
-        "last_updated_by": pa.string(),
-        "tags": pa.list_view(pa.string()),
-    }
-    test_fields = {"name": pa.string(), "description": pa.string()}
+    raw_ = pa.Table.from_pylist(list(obj))
+    for name in ["created_at", "last_updated"]:
+        col_index_ = raw_.column_names.index(name)
+        new_ = pc.assume_timezone(
+            raw_.column(name).cast(pa.timestamp("s")), timezone="UTC"
+        )
 
-    # Look for the superset of available parameters and metrics
-    field_map_: dict[str, str] = {}
-    test_field_map_: dict[str, str] = {}
-    for exp in obj.experiments:
-        fields, field_map_ = _gen_metric_parameters_fields(exp, fields, field_map_)
-        # Look at the tests
-        for test_ in exp.tests:
-            test_fields, test_field_map_ = _gen_metric_parameters_fields(
-                test_, test_fields, test_field_map_
-            )
-    fields["tests"] = pa.list_view(pa.struct(test_fields))
+        raw_ = raw_.set_column(
+            col_index_, pa.field(name, pa.timestamp("s", tz="UTC")), new_
+        )
 
-    schema = pa.schema(fields)
-    batches: list[pa.RecordBatch] = []
-    for exp in obj.experiments:
-        data_ = {
-            "name": [exp.name],
-            "slug": [exp.slug],
-            "short_slug": [exp.short_slug],
-            "author": [exp.author],
-            "created_at": [exp.created_at],
-            "last_updated": [exp.last_updated],
-            "last_updated_by": [exp.last_updated_by],
-            "tags": [exp.tags],
-        }
-
-        for field in schema:
-            if field.name.startswith("parameter-"):
-                data_[field.name] = [exp.parameters.get(field_map_[field.name])]
-            elif field.name.startswith("metric-"):
-                data_[field.name] = [exp.metrics.get(field_map_[field.name])]
-            else:
-                continue
-
-        exp_test_: list[dict] = []
-        for test_ in exp.tests:
-            test_data_ = {"name": test_.name, "description": test_.description}
-            for field_name_ in test_fields:
-                if field_name_.startswith("parameter-"):
-                    test_data_[field_name_] = test_.parameters.get(
-                        test_field_map_[field_name_]
-                    )
-                elif field_name_.startswith("metric-"):
-                    test_data_[field_name_] = test_.metrics.get(
-                        test_field_map_[field_name_]
-                    )
-                else:
-                    continue
-
-            exp_test_.append(test_data_)
-
-        data_["tests"] = [exp_test_]
-
-        batches.append(pa.record_batch(data_, schema=schema))
-
-    return pa.Table.from_batches(batches, schema=schema)
+    return raw_
