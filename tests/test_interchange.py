@@ -6,7 +6,7 @@ from datetime import datetime
 
 import pyarrow as pa
 import time_machine
-from lazyscribe import Project
+from lazyscribe import Project, Repository
 
 from lazyscribe_arrow.interchange import to_table
 
@@ -228,6 +228,35 @@ def test_project_to_table_art():
                 ]
             ],
             "tags": [[]],
+        }
+    )
+
+    assert table == expected
+
+
+@time_machine.travel(
+    datetime(2025, 1, 20, 13, 23, 30, tzinfo=zoneinfo.ZoneInfo("UTC")), tick=False
+)
+def test_repo_to_table_basic():
+    """Test converting a basic repository to a table."""
+    repo = Repository("repository.json", mode="w")
+    repo.log_artifact(name="features", value=["a", "b", "c"], handler="json")
+
+    table = to_table(repo)
+
+    expected = pa.table(
+        {
+            "name": ["features"],
+            "fname": ["features-20250120132330.json"],
+            "created_at": [
+                pa.scalar(
+                    datetime(2025, 1, 20, 13, 23, 30, tzinfo=zoneinfo.ZoneInfo("UTC")),
+                    type=pa.timestamp("s", tz="UTC"),
+                )
+            ],
+            "version": [0],
+            "python_version": [".".join(str(i) for i in sys.version_info[:2])],
+            "handler": ["json"],
         }
     )
 
