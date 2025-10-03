@@ -261,3 +261,39 @@ def test_repo_to_table_basic():
     )
 
     assert table == expected
+
+
+@time_machine.travel(
+    datetime(2025, 1, 20, 13, 23, 30, tzinfo=zoneinfo.ZoneInfo("UTC")), tick=False
+)
+def test_repo_to_table_mismatch():
+    """Test converting a repository to a table with artifact handlers that have different fields."""
+    repo = Repository("repository.json", mode="w")
+    repo.log_artifact(name="features", value=["a", "b", "c"], handler="json")
+    repo.log_artifact(
+        name="data", value=pa.Table.from_pylist([{"key": "value"}]), handler="csv"
+    )
+
+    table = to_table(repo)
+
+    expected = pa.table(
+        {
+            "name": ["features", "data"],
+            "fname": ["features-20250120132330.json", "data-20250120132330.csv"],
+            "created_at": [
+                pa.scalar(
+                    datetime(2025, 1, 20, 13, 23, 30, tzinfo=zoneinfo.ZoneInfo("UTC")),
+                    type=pa.timestamp("s", tz="UTC"),
+                ),
+                pa.scalar(
+                    datetime(2025, 1, 20, 13, 23, 30, tzinfo=zoneinfo.ZoneInfo("UTC")),
+                    type=pa.timestamp("s", tz="UTC"),
+                ),
+            ],
+            "version": [0, 0],
+            "python_version": [".".join(str(i) for i in sys.version_info[:2]), None],
+            "handler": ["json", "csv"],
+        }
+    )
+
+    assert table == expected
