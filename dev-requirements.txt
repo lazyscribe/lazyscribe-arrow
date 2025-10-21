@@ -2,132 +2,89 @@
 #    uv pip compile pyproject.toml -o dev-requirements.txt --extra dev
 argcomplete==3.6.2
     # via commitizen
-attrs==25.1.0
+attrs==25.3.0
     # via
     #   lazyscribe-arrow (pyproject.toml)
     #   lazyscribe
-backports-tarfile==1.2.0
-    # via jaraco-context
-build==1.2.2.post1
-    # via lazyscribe-arrow (pyproject.toml)
 cerberus==1.3.5
     # via edgetest
-certifi==2025.4.26
-    # via requests
-cffi==1.17.1
-    # via cryptography
 cfgv==3.4.0
     # via pre-commit
-charset-normalizer==3.4.2
-    # via
-    #   commitizen
-    #   requests
-click==8.1.8
+charset-normalizer==3.4.3
+    # via commitizen
+click==8.1.7
     # via edgetest
 colorama==0.4.6
     # via commitizen
-commitizen==4.6.1
+commitizen==4.9.1
     # via lazyscribe-arrow (pyproject.toml)
-coverage==7.8.0
+coverage==7.10.7
     # via pytest-cov
-cryptography==44.0.3
-    # via secretstorage
-decli==0.6.2
+decli==0.6.3
     # via commitizen
-distlib==0.3.9
+deprecated==1.2.18
+    # via commitizen
+distlib==0.4.0
     # via virtualenv
-docutils==0.21.2
-    # via readme-renderer
-edgetest==2025.1.0
+edgetest==2024.4.0
     # via lazyscribe-arrow (pyproject.toml)
-exceptiongroup==1.2.2
+exceptiongroup==1.3.0
     # via pytest
-filelock==3.18.0
+filelock==3.19.1
     # via virtualenv
-fsspec==2025.2.0
+fsspec==2025.5.1
     # via lazyscribe
-id==1.5.0
-    # via twine
-identify==2.6.10
+identify==2.6.14
     # via pre-commit
-idna==3.10
-    # via requests
-importlib-metadata==8.5.0
-    # via
-    #   keyring
-    #   lazyscribe
+importlib-metadata==8.7.0
+    # via lazyscribe
 iniconfig==2.1.0
     # via pytest
-jaraco-classes==3.4.0
-    # via keyring
-jaraco-context==6.0.1
-    # via keyring
-jaraco-functools==4.1.0
-    # via keyring
-jeepney==0.9.0
-    # via
-    #   keyring
-    #   secretstorage
 jinja2==3.1.6
     # via commitizen
-keyring==25.6.0
-    # via twine
-lazyscribe==1.1.0
+lazyscribe==1.2.0
     # via lazyscribe-arrow (pyproject.toml)
-markdown-it-py==3.0.0
-    # via rich
 markupsafe==3.0.2
     # via jinja2
-mdurl==0.1.2
-    # via markdown-it-py
-more-itertools==10.7.0
-    # via
-    #   jaraco-classes
-    #   jaraco-functools
-mypy==1.15.0
+mypy==1.18.2
     # via lazyscribe-arrow (pyproject.toml)
 mypy-extensions==1.1.0
     # via mypy
-nh3==0.2.21
-    # via readme-renderer
 nodeenv==1.9.1
     # via pre-commit
-numpy==2.2.5
+numpy==2.2.6
     # via pandas
-packaging==24.2
+packaging==24.0
     # via
-    #   build
     #   commitizen
     #   edgetest
     #   pytest
-    #   twine
-pandas==2.2.3
+pandas==2.3.2
     # via lazyscribe-arrow (pyproject.toml)
-platformdirs==4.3.7
+pathspec==0.12.1
+    # via mypy
+platformdirs==4.4.0
     # via virtualenv
-pluggy==1.5.0
+pluggy==1.4.0
     # via
     #   edgetest
     #   pytest
-pre-commit==4.2.0
+    #   pytest-cov
+pre-commit==4.3.0
     # via lazyscribe-arrow (pyproject.toml)
 prompt-toolkit==3.0.51
-    # via questionary
-pyarrow==19.0.1
-    # via lazyscribe-arrow (pyproject.toml)
-pycparser==2.22
-    # via cffi
-pygments==2.19.1
     # via
-    #   readme-renderer
-    #   rich
-pyproject-hooks==1.2.0
-    # via build
-pytest==8.3.5
+    #   commitizen
+    #   questionary
+pyarrow==21.0.0
+    # via lazyscribe-arrow (pyproject.toml)
+pyproject-fmt==2.6.0
+    # via lazyscribe-arrow (pyproject.toml)
+pytest==8.1.2
     # via
     #   lazyscribe-arrow (pyproject.toml)
     #   pytest-cov
-pytest-cov==6.1.1
+pytest-cov==7.0.0
     # via lazyscribe-arrow (pyproject.toml)
 python-dateutil==2.9.0.post0
     # via
@@ -143,69 +100,49 @@ pyyaml==6.0.2
     # via
     #   commitizen
     #   pre-commit
-questionary==2.1.0
+questionary==2.1.1
     # via commitizen
-readme-renderer==44.0
-    # via twine
-requests==2.32.3
-    # via
-    #   id
-    #   requests-toolbelt
-    #   twine
-requests-toolbelt==1.0.0
-    # via twine
-rfc3986==2.0.0
-    # via twine
-rich==14.0.0
-    # via twine
-ruff==0.11.8
+ruff==0.13.1
     # via lazyscribe-arrow (pyproject.toml)
-secretstorage==3.3.3
-    # via keyring
 six==1.17.0
     # via python-dateutil
 tabulate==0.9.0
     # via edgetest
-termcolor==2.5.0
+termcolor==3.1.0
     # via commitizen
 text-unidecode==1.3
     # via python-slugify
-time-machine==2.16.0
+time-machine==2.19.0
     # via lazyscribe-arrow (pyproject.toml)
+toml-fmt-common==1.0.1
+    # via pyproject-fmt
 tomli==2.2.1
     # via
-    #   build
     #   coverage
     #   mypy
     #   pytest
+    #   toml-fmt-common
 tomlkit==0.11.4
     # via
     #   commitizen
     #   edgetest
-twine==6.1.0
-    # via lazyscribe-arrow (pyproject.toml)
 types-python-slugify==8.0.2.20240310
     # via lazyscribe-arrow (pyproject.toml)
-typing-extensions==4.13.2
+typing-extensions==4.15.0
     # via
     #   commitizen
+    #   exceptiongroup
     #   mypy
-    #   rich
+    #   virtualenv
 tzdata==2025.2
     # via pandas
-urllib3==2.4.0
-    # via
-    #   requests
-    #   twine
-uv==0.5.15
-    # via
-    #   lazyscribe-arrow (pyproject.toml)
-    #   edgetest
-virtualenv==20.30.0
-    # via pre-commit
-wcwidth==0.2.13
-    # via prompt-toolkit
-wheel==0.45.1
+uv==0.8.19
     # via lazyscribe-arrow (pyproject.toml)
-zipp==3.21.0
+virtualenv==20.34.0
+    # via pre-commit
+wcwidth==0.2.14
+    # via prompt-toolkit
+wrapt==1.17.3
+    # via deprecated
+zipp==3.23.0
     # via importlib-metadata
