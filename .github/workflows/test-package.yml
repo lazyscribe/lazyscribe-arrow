@@ -23,25 +23,32 @@ jobs:
                     - '3.12'
                     - '3.13'
         steps:
-            - uses: actions/checkout@v2
-            - name: Set up Python ${{ matrix.python-version }}
-              uses: actions/setup-python@v2
+            - uses: actions/checkout@v5
+
+            - name: Install uv and set the Python version
+              uses: astral-sh/setup-uv@v6
               with:
                 python-version: ${{ matrix.python-version }}
-            - name: Install setuptools and upgrade pip
-              run: python -m pip install 'setuptools>=64.0.0' 'pip>=22.3'
+
             - name: Install dependencies
-              run: python -m pip install -r requirements.txt .[dev]
+              run: uv sync --locked --all-extras --dev
+
             - name: Run ruff QA checks
-              run: python -m ruff check .
+              run: uv run ruff check .
+
             - name: Check formatting
-              run: python -m ruff format . --check
+              run: uv run ruff format . --check
+
+
             - name: Check static typing
-              run: python -m mypy lazyscribe_arrow
+              run: uv run mypy lazyscribe_arrow
+
             - name: Run unit testing
-              run: python -m pytest tests --ignore=tests/test_lazyscribe_integration --cov=./ --cov-report=xml
+              run: uv run pytest tests --ignore=tests/test_lazyscribe_integration --cov=./ --cov-report=xml
+
             - name: Run integration testing
-              run: python -m pytest tests/test_lazyscribe_integration
+              run: uv run pytest tests/test_lazyscribe_integration
+
             - name: Run Codecov
               uses: codecov/codecov-action@v3
               with:
