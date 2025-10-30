@@ -24,12 +24,12 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
 ]
-dependencies = [ "attrs>=21.2,<=25.3", "lazyscribe>=1,<=1.2", "pyarrow>=14.0.1,<=21", "python-slugify>=5,<=8.0.4" ]
+dependencies = ["attrs<=25.3.0,>=21.2", "lazyscribe<=1.2.0,>=1", "pyarrow<=22.0.0,>=14.0.1", "python-slugify<=8.0.4,>=5"]
 
-optional-dependencies.build = [ "commitizen", "uv" ]
-optional-dependencies.dev = [ "lazyscribe-arrow[build]", "lazyscribe-arrow[qa]", "lazyscribe-arrow[tests]" ]
-optional-dependencies.qa = [ "edgetest", "mypy", "pre-commit", "pyproject-fmt", "ruff", "types-python-slugify", "uv" ]
-optional-dependencies.tests = [ "pandas", "pytest", "pytest-cov", "time-machine" ]
+optional-dependencies.build = ["commitizen", "uv"]
+optional-dependencies.dev = ["lazyscribe-arrow[build]", "lazyscribe-arrow[qa]", "lazyscribe-arrow[tests]"]
+optional-dependencies.qa = ["edgetest", "mypy", "pre-commit", "pyproject-fmt", "ruff", "types-python-slugify", "uv"]
+optional-dependencies.tests = ["pandas", "pytest", "pytest-cov", "time-machine"]
 urls."Documentation" = "https://github.com/lazyscribe/lazyscribe-arrow"
 urls."Repository" = "https://github.com/lazyscribe/lazyscribe-arrow"
 entry-points."lazyscribe.artifact_type".csv = "lazyscribe_arrow:CSVArtifact"
