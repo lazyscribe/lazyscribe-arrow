@@ -1,3 +1,9 @@
+## v0.3.0 (2025-12-01)
+
+### Feat
+
+- interchange methods for projects and repositories (#20)
+
 ## v0.2.1 (2025-09-05)
 
 ### Refactor
