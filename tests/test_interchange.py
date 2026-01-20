@@ -1,6 +1,5 @@
 """Test object interchange with Arrow."""
 
-import sys
 import zoneinfo
 from datetime import datetime
 
@@ -186,7 +185,12 @@ def test_project_to_table_art():
     """Test converting a project to a table with logged artifacts."""
     project = Project("project.json", author="myself", mode="w")
     with project.log("My experiment") as exp:
-        exp.log_artifact(name="features", value=["a", "b", "c"], handler="json")
+        exp.log_artifact(
+            name="features",
+            value=["a", "b", "c"],
+            expiry=datetime(2026, 2, 20, 13, 23, 30, tzinfo=zoneinfo.ZoneInfo("UTC")),
+            handler="json",
+        )
 
     table = to_table(project)
 
@@ -217,12 +221,10 @@ def test_project_to_table_art():
                 [
                     {
                         "created_at": "2025-01-20T13:23:30",
+                        "expiry": None,
                         "fname": "features-20250120132330.json",
                         "handler": "json",
                         "name": "features",
-                        "python_version": ".".join(
-                            str(i) for i in sys.version_info[:2]
-                        ),
                         "version": 0,
                     }
                 ]
@@ -254,8 +256,8 @@ def test_repo_to_table_basic():
                     type=pa.timestamp("s", tz="UTC"),
                 )
             ],
+            "expiry": [None],
             "version": [0],
-            "python_version": [".".join(str(i) for i in sys.version_info[:2])],
             "handler": ["json"],
         }
     )
@@ -290,8 +292,8 @@ def test_repo_to_table_mismatch():
                     type=pa.timestamp("s", tz="UTC"),
                 ),
             ],
+            "expiry": [None, None],
             "version": [0, 0],
-            "python_version": [".".join(str(i) for i in sys.version_info[:2]), None],
             "handler": ["json", "csv"],
         }
     )
