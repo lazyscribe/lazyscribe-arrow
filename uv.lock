@@ -456,7 +456,7 @@ requires-dist = [
     { name = "attrs", specifier = ">=21.2,<=25.4" },
     { name = "commitizen", marker = "extra == 'build'" },
     { name = "edgetest", marker = "extra == 'qa'" },
-    { name = "lazyscribe", specifier = ">=2.0.0,<=2.0.0" },
+    { name = "lazyscribe", specifier = ">=2.0.0,<3" },
     { name = "lazyscribe-arrow", extras = ["build"], marker = "extra == 'dev'" },
     { name = "lazyscribe-arrow", extras = ["qa"], marker = "extra == 'dev'" },
     { name = "lazyscribe-arrow", extras = ["tests"], marker = "extra == 'dev'" },
