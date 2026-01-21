@@ -1,3 +1,9 @@
+## v0.3.1 (2026-01-21)
+
+### Fix
+
+- bump lazyscribe version (#26)
+
 ## v0.3.0 (2025-12-01)
 
 ### Feat

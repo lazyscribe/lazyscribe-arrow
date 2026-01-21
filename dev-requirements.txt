@@ -145,7 +145,7 @@ uv==0.9.23
     #   edgetest
 virtualenv==20.36.1
     # via pre-commit
-wcwidth==0.2.14
+wcwidth==0.3.0
     # via prompt-toolkit
 wrapt==2.0.1
     # via deprecated

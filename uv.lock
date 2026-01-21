@@ -407,7 +407,7 @@ wheels = [
 
 [[package]]
 name = "lazyscribe-arrow"
-version = "0.3.0"
+version = "0.3.1"
 source = { editable = "." }
 dependencies = [
     { name = "attrs" },
@@ -456,7 +456,7 @@ requires-dist = [
     { name = "attrs", specifier = ">=21.2,<=25.4" },
     { name = "commitizen", marker = "extra == 'build'" },
     { name = "edgetest", marker = "extra == 'qa'" },
-    { name = "lazyscribe", specifier = ">=2.0.0,<3" },
+    { name = "lazyscribe", specifier = ">=2,<3" },
     { name = "lazyscribe-arrow", extras = ["build"], marker = "extra == 'dev'" },
     { name = "lazyscribe-arrow", extras = ["qa"], marker = "extra == 'dev'" },
     { name = "lazyscribe-arrow", extras = ["tests"], marker = "extra == 'dev'" },
