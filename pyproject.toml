@@ -24,7 +24,7 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
 ]
-dependencies = ["attrs<=25.4.0,>=21.2", "lazyscribe!=3,<=2.0.1,>=2", "pyarrow<=23.0.0,>=14.0.1", "python-slugify<=8.0.4,>=5"]
+dependencies = ["attrs<=25.4.0,>=21.2", "lazyscribe!=3,<=2.0.1,>=2", "pyarrow<=23.0.1,>=14.0.1", "python-slugify<=8.0.4,>=5"]
 
 optional-dependencies.build = ["commitizen", "uv"]
 optional-dependencies.dev = ["lazyscribe-arrow[build]", "lazyscribe-arrow[qa]", "lazyscribe-arrow[tests]"]
