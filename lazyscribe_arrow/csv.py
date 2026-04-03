@@ -9,14 +9,9 @@ from attrs import define
 from lazyscribe._utils import utcnow
 from lazyscribe.artifacts.base import Artifact
 from pyarrow import csv
-from pyarrow.interchange import from_dataframe
 from slugify import slugify
 
-from lazyscribe_arrow.protocols import (
-    ArrowArrayExportable,
-    ArrowStreamExportable,
-    SupportsInterchange,
-)
+from lazyscribe_arrow._utils import _getstate, _setstate, _to_arrow
 
 LOG = logging.getLogger(__name__)
 
@@ -97,17 +92,19 @@ class CSVArtifact(Artifact):
             perform a zero-copy transformation from the native obejct to a PyArrow
             Table.
         """
-        if isinstance(obj, pa.Table):
-            LOG.debug("Provided object is already a PyArrow table.")
-        elif isinstance(obj, (ArrowArrayExportable, ArrowStreamExportable)):
-            obj = pa.table(obj)
-        elif isinstance(obj, SupportsInterchange):
-            obj = from_dataframe(obj)
-        else:
-            raise ValueError(
-                f"Object of type `{type(obj)}` cannot be easily coerced into a PyArrow Table. "
-                "Please provide an object that implements the Arrow PyCapsule Interface or the "
-                "Dataframe Interchange Protocol."
-            )
-
+        obj = _to_arrow(obj)
         csv.write_csv(obj, buf, **kwargs)
+
+    def __getstate__(self) -> dict:
+        """Serialize the handler itself.
+
+        Useful for multiprocessing applications.
+        """
+        return _getstate(self)
+
+    def __setstate__(self, state: dict):
+        """Deserialize the handler itself.
+
+        Useful for multiprocessing applications.
+        """
+        _setstate(self, state)
