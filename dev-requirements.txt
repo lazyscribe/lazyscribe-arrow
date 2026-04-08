@@ -10,15 +10,15 @@ cerberus==1.3.8
     # via edgetest
 cfgv==3.5.0
     # via pre-commit
-charset-normalizer==3.4.4
+charset-normalizer==3.4.7
     # via commitizen
 click==8.3.1
     # via edgetest
 colorama==0.4.6
     # via commitizen
-commitizen==4.12.0
+commitizen==4.13.9
     # via lazyscribe-arrow (pyproject.toml)
-coverage==7.13.1
+coverage==7.13.5
     # via pytest-cov
 decli==0.6.3
     # via commitizen
@@ -26,45 +26,47 @@ deprecated==1.3.1
     # via commitizen
 distlib==0.4.0
     # via virtualenv
-edgetest==2026.1.0
+edgetest==2026.1.1
     # via lazyscribe-arrow (pyproject.toml)
-exceptiongroup==1.3.1
-    # via pytest
-filelock==3.20.3
-    # via virtualenv
-fsspec==2025.12.0
+filelock==3.25.2
+    # via
+    #   python-discovery
+    #   virtualenv
+fsspec==2026.2.0
     # via lazyscribe
-identify==2.6.16
+identify==2.6.18
     # via pre-commit
 iniconfig==2.3.0
     # via pytest
 jinja2==3.1.6
     # via commitizen
-lazyscribe==2.0.0
+lazyscribe==2.0.1
     # via lazyscribe-arrow (pyproject.toml)
-librt==0.7.8
+librt==0.8.1
     # via mypy
 markupsafe==3.0.3
     # via jinja2
-mypy==1.19.1
+mypy==1.20.0
     # via lazyscribe-arrow (pyproject.toml)
 mypy-extensions==1.1.0
     # via mypy
 nodeenv==1.10.0
     # via pre-commit
-numpy==2.2.6
+numpy==2.4.4
     # via pandas
-packaging==25.0
+packaging==26.0
     # via
     #   commitizen
     #   edgetest
     #   pytest
-pandas==2.3.3
+pandas==3.0.2
     # via lazyscribe-arrow (pyproject.toml)
-pathspec==1.0.3
+pathspec==1.0.4
     # via mypy
-platformdirs==4.5.1
-    # via virtualenv
+platformdirs==4.9.4
+    # via
+    #   python-discovery
+    #   virtualenv
 pluggy==1.6.0
     # via
     #   edgetest
@@ -76,35 +78,35 @@ prompt-toolkit==3.0.51
     # via
     #   commitizen
     #   questionary
-pyarrow==23.0.0
+pyarrow==23.0.1
     # via lazyscribe-arrow (pyproject.toml)
-pygments==2.19.2
+pygments==2.20.0
     # via pytest
 pyproject-fmt==2.11.1
     # via
     #   lazyscribe-arrow (pyproject.toml)
     #   edgetest
-pytest==9.0.2
+pytest==9.0.3
     # via
     #   lazyscribe-arrow (pyproject.toml)
     #   pytest-cov
-pytest-cov==7.0.0
+pytest-cov==7.1.0
     # via lazyscribe-arrow (pyproject.toml)
 python-dateutil==2.9.0.post0
     # via pandas
+python-discovery==1.2.2
+    # via virtualenv
 python-slugify==8.0.4
     # via
     #   lazyscribe-arrow (pyproject.toml)
     #   lazyscribe
-pytz==2025.2
-    # via pandas
 pyyaml==6.0.3
     # via
     #   commitizen
     #   pre-commit
 questionary==2.1.1
     # via commitizen
-ruff==0.14.13
+ruff==0.15.9
     # via lazyscribe-arrow (pyproject.toml)
 six==1.17.0
     # via python-dateutil
@@ -118,34 +120,21 @@ time-machine==3.2.0
     # via lazyscribe-arrow (pyproject.toml)
 toml-fmt-common==1.1.0
     # via pyproject-fmt
-tomli==2.3.0
-    # via
-    #   coverage
-    #   lazyscribe
-    #   mypy
-    #   pytest
-    #   toml-fmt-common
-tomlkit==0.13.3
+tomlkit==0.14.0
     # via
     #   commitizen
     #   edgetest
 types-python-slugify==8.0.2.20240310
     # via lazyscribe-arrow (pyproject.toml)
 typing-extensions==4.15.0
-    # via
-    #   commitizen
-    #   exceptiongroup
-    #   mypy
-    #   virtualenv
-tzdata==2025.3
-    # via pandas
-uv==0.9.23
+    # via mypy
+uv==0.9.26
     # via
     #   lazyscribe-arrow (pyproject.toml)
     #   edgetest
-virtualenv==20.36.1
+virtualenv==21.2.0
     # via pre-commit
-wcwidth==0.3.0
+wcwidth==0.6.0
     # via prompt-toolkit
-wrapt==2.0.1
+wrapt==2.1.2
     # via deprecated
