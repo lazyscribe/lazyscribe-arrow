@@ -1,3 +1,9 @@
+## v0.4.0 (2026-04-10)
+
+### Feat
+
+- custom handler-level serialization (#31)
+
 ## v0.3.2 (2026-04-08)
 
 ## v0.3.1 (2026-01-21)
