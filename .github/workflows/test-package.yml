@@ -18,17 +18,20 @@ jobs:
         strategy:
             matrix:
                 python_version:
-                    - '3.10'
-                    - '3.11'
-                    - '3.12'
-                    - '3.13'
+                    - "3.10"
+                    - "3.11"
+                    - "3.12"
+                    - "3.13"
+                    - "3.13t"
+                    - "3.14"
+                    - "3.14t"
         steps:
             - uses: actions/checkout@v5
 
             - name: Install uv and set the Python version
               uses: astral-sh/setup-uv@v6
               with:
-                python-version: ${{ matrix.python-version }}
+                  python-version: ${{ matrix.python-version }}
 
             - name: Install dependencies
               run: uv sync --locked --all-extras --dev
@@ -38,7 +41,6 @@ jobs:
 
             - name: Check formatting
               run: uv run ruff format . --check
-
 
             - name: Check static typing
               run: uv run mypy lazyscribe_arrow
@@ -52,7 +54,7 @@ jobs:
             - name: Run Codecov
               uses: codecov/codecov-action@v3
               with:
-                token: ${{ secrets.CODECOV_TOKEN }}
-                fail_ci_if_error: true
-                files: ./coverage.xml
-                verbose: true
+                  token: ${{ secrets.CODECOV_TOKEN }}
+                  fail_ci_if_error: true
+                  files: ./coverage.xml
+                  verbose: true
