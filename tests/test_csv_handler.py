@@ -1,5 +1,6 @@
 """Test the custom CSV handler."""
 
+import pickle
 import zoneinfo
 from datetime import datetime
 
@@ -110,3 +111,46 @@ def test_csv_dataframe_interchange(tmp_path):
         out = handler.read(buf)
 
     assert_frame_equal(data, out.to_pandas())
+
+
+def test_csv_handler_pickle():
+    """Test serializing the handler itself."""
+    data = pa.Table.from_pylist([{"key": "value"}])
+    handler = CSVArtifact.construct(name="My output file", value=data)
+    out = pickle.dumps(handler)
+    recon = pickle.loads(out)
+
+    assert recon == handler
+    # Test equality for fields we don't typically care about
+    for field in [
+        "name",
+        "fname",
+        "value",
+        "writer_kwargs",
+        "created_at",
+        "expiry",
+        "version",
+        "dirty",
+    ]:
+        assert getattr(recon, field) == getattr(handler, field)
+
+
+def test_csv_handler_pickle_empty():
+    """Test serializing the handler without a value."""
+    handler = CSVArtifact.construct(name="My output file")
+    out = pickle.dumps(handler)
+    recon = pickle.loads(out)
+
+    assert recon == handler
+    # Test equality for fields we don't typically care about
+    for field in [
+        "name",
+        "fname",
+        "value",
+        "writer_kwargs",
+        "created_at",
+        "expiry",
+        "version",
+        "dirty",
+    ]:
+        assert getattr(recon, field) == getattr(handler, field)

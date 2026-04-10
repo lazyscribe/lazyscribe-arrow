@@ -1,66 +1,87 @@
 [build-system]
 build-backend = "uv_build"
-
 requires = [ "uv-build>=0.8,<0.9" ]
 
 [project]
 name = "lazyscribe-arrow"
-version = "0.3.2"
-
+version = "0.4.0"
 description = "Arrow-based artifact handlers for Lazyscribe"
 readme = { file = "README.md", content-type = "text/markdown" }
 license = { text = "MIT license" }
 authors = [
-  { name = "Akshay Gupta", email = "akgcodes@gmail.com" },
+    { name = "Akshay Gupta", email = "akgcodes@gmail.com" },
 ]
 requires-python = ">=3.10.0"
 classifiers = [
-  "Development Status :: 3 - Alpha",
-  "License :: OSI Approved :: MIT License",
-  "Natural Language :: English",
-  "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.13",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: Free Threading :: 2 - Beta",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Documentation",
 ]
 dependencies = [
-  "attrs>=21.2,<=25.4",
-  "lazyscribe>=2,<=2.0.1,!=3",
-  "pyarrow>=14.0.1,<=23.0.1",
-  "python-slugify>=5,<=8.0.4",
+    "attrs>=21.2,<=25.4",
+    "lazyscribe>=2,<3",
+    "pyarrow>=14.0.1,<=23.0.1",
+    "python-slugify>=5,<=8.0.4",
 ]
-
 optional-dependencies.build = [ "commitizen", "uv" ]
-optional-dependencies.dev = [ "lazyscribe-arrow[build]", "lazyscribe-arrow[qa]", "lazyscribe-arrow[tests]" ]
-optional-dependencies.qa = [ "edgetest", "mypy", "pre-commit", "pyproject-fmt", "ruff", "types-python-slugify", "uv" ]
+optional-dependencies.dev = [
+    "lazyscribe-arrow[build]",
+    "lazyscribe-arrow[qa]",
+    "lazyscribe-arrow[tests]"
+]
+optional-dependencies.qa = [
+    "edgetest",
+    "mypy",
+    "pre-commit",
+    "pyproject-fmt",
+    "ruff",
+    "types-python-slugify",
+    "uv",
+]
 optional-dependencies.tests = [ "pandas", "pytest", "pytest-cov", "time-machine" ]
-urls."Documentation" = "https://github.com/lazyscribe/lazyscribe-arrow"
-urls."Repository" = "https://github.com/lazyscribe/lazyscribe-arrow"
+urls.Documentation = "https://github.com/lazyscribe/lazyscribe-arrow"
+urls.Repository = "https://github.com/lazyscribe/lazyscribe-arrow"
 entry-points."lazyscribe.artifact_type".csv = "lazyscribe_arrow:CSVArtifact"
 entry-points."lazyscribe.artifact_type".parquet = "lazyscribe_arrow:ParquetArtifact"
 
+[tool.uv]
+build-backend.module-name = "lazyscribe_arrow"
+build-backend.module-root = ""
+
 [tool.ruff]
 target-version = "py310"
-
 lint.select = [
-  "B",      # flake8-bugbear
-  "C",      # flake8-comprehensions
-  "D",      # pydocstyle
-  "E",      # pycodestyle errors
-  "F",      # pyflakes
-  "I",      # isort
-  "LOG",    # flake8-logging
-  "RUF",    # Ruff errors
-  "SIM",    # flake8-simplify
-  "T20",    # flake8-print
-  "TID252", # flake8-tidy-imports ban relative imports
-  "UP",     # pyupgrade
-  "W",      # pycodestyle warnings
+    "B",      # flake8-bugbear
+    "C",      # flake8-comprehensions
+    "D",      # pydocstyle
+    "E",      # pycodestyle errors
+    "F",      # pyflakes
+    "I",      # isort
+    "LOG",    # flake8-logging
+    "RUF",    # Ruff errors
+    "SIM",    # flake8-simplify
+    "T20",    # flake8-print
+    "TID252", # flake8-tidy-imports ban relative imports
+    "UP",     # pyupgrade
+    "W",      # pycodestyle warnings
 ]
 lint.ignore = [
-  "C901", # Function/method is too complex. (Add back in later.)
-  "E501", # Line too long. Using formatter instead.
+    "C901", # Function/method is too complex. (Add back in later.)
+    "E501", # Line too long. Using formatter instead.
 ]
 lint.per-file-ignores."**/{tests,docs}/*" = [ "ARG", "D", "E402", "F841" ]
 lint.per-file-ignores."__init__.py" = [ "E402" ]
@@ -68,6 +89,12 @@ lint.per-file-ignores."tutorials/*" = [ "D", "T201" ]
 lint.flake8-tidy-imports.ban-relative-imports = "all"
 lint.pydocstyle.convention = "numpy"
 lint.preview = true
+
+[tool.pyproject-fmt]
+column_width = 88
+indent = 4
+keep_full_version = true
+max_supported_python = "3.14"
 
 [tool.mypy]
 python_version = "3.10"
@@ -77,16 +104,12 @@ ignore_missing_imports = true
 allow_redefinition = true
 check_untyped_defs = true
 
-[tool.uv.build-backend]
-module-name = "lazyscribe_arrow"
-module-root = ""
-
 [tool.commitizen]
 version_provider = "pep621"
 tag_format = "v$version"
 update_changelog_on_bump = true
 version_files = [
-  "lazyscribe_arrow/_meta.py:__version__",
+    "lazyscribe_arrow/_meta.py:__version__",
 ]
 
 [edgetest.envs.core]
