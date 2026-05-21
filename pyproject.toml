@@ -44,13 +44,13 @@ optional-dependencies.dev = [
     "lazyscribe-arrow[tests]"
 ]
 optional-dependencies.qa = [
-    "edgetest",
+    "edgetest>=2026.5.0",
     "mypy",
     "pre-commit",
+    "pre-commit-uv",
     "pyproject-fmt",
     "ruff",
     "types-python-slugify",
-    "uv",
 ]
 optional-dependencies.tests = [ "pandas", "pytest", "pytest-cov", "time-machine" ]
 urls.Documentation = "https://github.com/lazyscribe/lazyscribe-arrow"
@@ -105,14 +105,18 @@ allow_redefinition = true
 check_untyped_defs = true
 
 [tool.commitizen]
-version_provider = "pep621"
+version_provider = "uv"
 tag_format = "v$version"
 update_changelog_on_bump = true
 version_files = [
     "lazyscribe_arrow/_meta.py:__version__",
 ]
 
-[edgetest.envs.core]
+[tool.edgetest]
+exclude_newer = "3 days"
+
+[[tool.edgetest.env]]
+name = "core"
 extras = [ "tests" ]
 upgrade = [ "attrs", "lazyscribe", "pyarrow", "python-slugify" ]
 command = "pytest tests"
