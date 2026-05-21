@@ -161,12 +161,14 @@ def test_project_to_table_tests():
                         "description": "My population",
                         "metrics": {"my-metric": 0.5},
                         "parameters": {},
+                        "artifacts": [],
                     },
                     {
                         "name": "My second test",
                         "description": "My second population",
                         "metrics": {"my-metric": 0.25},
                         "parameters": {},
+                        "artifacts": [],
                     },
                 ],
             ],
@@ -220,12 +222,12 @@ def test_project_to_table_art():
             "artifacts": [
                 [
                     {
+                        "name": "features",
+                        "fname": "features-20250120132330.json",
                         "created_at": "2025-01-20T13:23:30",
                         "expiry": None,
-                        "fname": "features-20250120132330.json",
-                        "handler": "json",
-                        "name": "features",
                         "version": 0,
+                        "handler": "json",
                     }
                 ]
             ],
