@@ -32,9 +32,9 @@ classifiers = [
     "Topic :: Software Development :: Documentation",
 ]
 dependencies = [
-    "attrs>=21.2,<=25.4",
+    "attrs>=21.2,<=26.1.0",
     "lazyscribe>=2,<3",
-    "pyarrow>=14.0.1,<=23.0.1",
+    "pyarrow>=14.0.1,<=25.0.1",
     "python-slugify>=5,<=8.0.4",
 ]
 optional-dependencies.build = [ "commitizen", "uv" ]
@@ -65,27 +65,32 @@ build-backend.module-root = ""
 [tool.ruff]
 target-version = "py310"
 lint.select = [
-    "B",      # flake8-bugbear
-    "C",      # flake8-comprehensions
-    "D",      # pydocstyle
-    "E",      # pycodestyle errors
-    "F",      # pyflakes
-    "I",      # isort
-    "LOG",    # flake8-logging
-    "RUF",    # Ruff errors
-    "SIM",    # flake8-simplify
-    "T20",    # flake8-print
-    "TID252", # flake8-tidy-imports ban relative imports
-    "UP",     # pyupgrade
-    "W",      # pycodestyle warnings
+    "B",                # flake8-bugbear
+    "C",                # flake8-comprehensions
+    "D",                # pydocstyle
+    "E",                # pycodestyle errors
+    "F",                # pyflakes
+    "I",                # isort
+    "LOG",              # flake8-logging
+    "relative-imports", # flake8-tidy-imports ban relative imports
+    "RUF",              # Ruff errors
+    "SIM",              # flake8-simplify
+    "T20",              # flake8-print
+    "UP",               # pyupgrade
+    "W",                # pycodestyle warnings
 ]
 lint.ignore = [
-    "C901", # Function/method is too complex. (Add back in later.)
-    "E501", # Line too long. Using formatter instead.
+    "complex-structure", # Function/method is too complex. (Add back in later.)
+    "line-too-long",     # Line too long. Using formatter instead.
 ]
-lint.per-file-ignores."**/{tests,docs}/*" = [ "ARG", "D", "E402", "F841" ]
-lint.per-file-ignores."__init__.py" = [ "E402" ]
-lint.per-file-ignores."tutorials/*" = [ "D", "T201" ]
+lint.per-file-ignores."**/{tests,docs}/*" = [
+    "ARG",
+    "D",
+    "module-import-not-at-top-of-file",
+    "unused-variable"
+]
+lint.per-file-ignores."__init__.py" = [ "module-import-not-at-top-of-file" ]
+lint.per-file-ignores."tutorials/*" = [ "D", "print" ]
 lint.flake8-tidy-imports.ban-relative-imports = "all"
 lint.pydocstyle.convention = "numpy"
 lint.preview = true
