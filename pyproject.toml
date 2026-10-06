@@ -32,9 +32,9 @@ classifiers = [
     "Topic :: Software Development :: Documentation",
 ]
 dependencies = [
-    "attrs>=21.2,<=25.4",
+    "attrs>=21.2,<=26.1.0",
     "lazyscribe>=2,<3",
-    "pyarrow>=14.0.1,<=23.0.1",
+    "pyarrow>=14.0.1,<=25.0.1",
     "python-slugify>=5,<=8.0.4",
 ]
 optional-dependencies.build = [ "commitizen", "uv" ]
