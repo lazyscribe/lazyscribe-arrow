@@ -2,11 +2,14 @@
 
 import logging
 from datetime import datetime
+from pathlib import Path
 from typing import Any, ClassVar
 
 import pyarrow as pa
+import pyarrow.dataset as ds
 import pyarrow.parquet as pq
 from attrs import define
+from fsspec.spec import AbstractFileSystem
 from lazyscribe._utils import utcnow
 from lazyscribe.artifacts.base import Artifact
 from slugify import slugify
@@ -70,6 +73,28 @@ class ParquetArtifact(Artifact):
             A ``pyarrow`` table with the data.
         """
         return pq.read_table(buf, **kwargs)
+
+    @classmethod
+    def scan(
+        cls, source: str | Path, fs: AbstractFileSystem | None = None, **kwargs: Any
+    ) -> ds.Dataset:
+        """Scan the parquet file using PyArrow.
+
+        Parameters
+        ----------
+        source : str | Path
+            The entire path to the parquet file.
+        fs : fsspec.spec.AbstractFileSystem, optional (default None)
+            The ``fsspec`` filesystem for reading the file.
+        **kwargs : Any
+            Keyword arguments for :py:meth:`pyarrow.dataset.dataset`.
+
+        Returns
+        -------
+        pyarrow.dataset.Dataset
+            The PyArrow dataset.
+        """
+        return ds.dataset(source, format="parquet", filesystem=fs, **kwargs)
 
     @classmethod
     def write(cls, obj, buf, **kwargs):
