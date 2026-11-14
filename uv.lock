@@ -569,17 +569,13 @@ wheels = [
 
 [[package]]
 name = "lazyscribe"
-version = "2.2.2"
-source = { registry = "https://pypi.org/simple" }
+version = "2.3.0"
+source = { git = "https://github.com/lazyscribe/lazyscribe?branch=scan-artifacts#349961a4e70bb001001d06ea7e5f6cdd205a7816" }
 dependencies = [
     { name = "attrs" },
     { name = "fsspec" },
     { name = "python-slugify" },
     { name = "tomli", marker = "python_full_version < '3.11'" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/55/72/982f4faea58e8982ba4ec1638f7cafc6e082171009d57f885087321d62a1/lazyscribe-2.2.2.tar.gz", hash = "sha256:481ec377f412dd0639e7efbd24538cdb904ffdeb5bbdc6a673b57202dfff06b3", size = 28544, upload-time = "2026-10-06T17:51:42.338Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/4c/30/41ae29804f686e2ea1ccaf52a17c60dbee5177cdb23ff93ea8b8d0390a9b/lazyscribe-2.2.2-py3-none-any.whl", hash = "sha256:138a07952ff23e53f2cd141f2d4fbf63f8731bf1a64b8841173d21e8875a7aec", size = 37207, upload-time = "2026-10-06T17:51:41.144Z" },
 ]
 
 [[package]]
@@ -636,7 +632,7 @@ requires-dist = [
     { name = "attrs", specifier = ">=21.2,<=26.1.0" },
     { name = "commitizen", marker = "extra == 'build'" },
     { name = "edgetest", marker = "extra == 'qa'", specifier = ">=2026.5.0" },
-    { name = "lazyscribe", specifier = ">=2,<3" },
+    { name = "lazyscribe", git = "https://github.com/lazyscribe/lazyscribe?branch=scan-artifacts" },
     { name = "lazyscribe-arrow", extras = ["build"], marker = "extra == 'dev'" },
     { name = "lazyscribe-arrow", extras = ["qa"], marker = "extra == 'dev'" },
     { name = "lazyscribe-arrow", extras = ["tests"], marker = "extra == 'dev'" },

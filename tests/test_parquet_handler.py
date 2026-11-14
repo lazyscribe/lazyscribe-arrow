@@ -6,6 +6,7 @@ from datetime import datetime
 
 import pandas as pd
 import pyarrow as pa
+import pyarrow.dataset as ds
 import pytest
 import time_machine
 from pandas.testing import assert_frame_equal
@@ -75,6 +76,7 @@ def test_parquet_scan(tmp_path):
         handler.write(data, buf)
 
     dataset = handler.scan(location / handler.fname)
+    assert isinstance(dataset, ds.Dataset)
     # Assert that the dataset unpacks to the same object
     assert_frame_equal(dataset.to_table().to_pandas(), data.to_pandas())
 
