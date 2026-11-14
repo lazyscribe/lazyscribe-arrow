@@ -2,12 +2,17 @@
 
 import zoneinfo
 from datetime import datetime
+from importlib.metadata import version
 
 import pandas as pd
 import pyarrow.dataset as ds
+import pytest
 import time_machine
 from lazyscribe import Project
+from packaging.version import Version
 from pandas.testing import assert_frame_equal
+
+LAZY_VERSION = Version(version("lazyscribe"))
 
 
 @time_machine.travel(
@@ -35,6 +40,10 @@ def test_csv_project_write(tmp_path):
     assert_frame_equal(data, out.to_pandas())
 
 
+@pytest.mark.skipif(
+    Version("2.4.0") > LAZY_VERSION,
+    reason="Artifact scanning requires lazyscribe 2.4.0",
+)
 @time_machine.travel(
     datetime(2025, 1, 20, 13, 23, 30, tzinfo=zoneinfo.ZoneInfo("UTC")), tick=False
 )
