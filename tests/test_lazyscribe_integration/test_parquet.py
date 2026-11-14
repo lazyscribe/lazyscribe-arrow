@@ -4,6 +4,7 @@ import zoneinfo
 from datetime import datetime
 
 import pandas as pd
+import pyarrow.dataset as ds
 import time_machine
 from lazyscribe import Project
 from pandas.testing import assert_frame_equal
@@ -32,3 +33,25 @@ def test_parquet_project_write(tmp_path):
     out = project_r["my-experiment"].load_artifact(name="My data")
 
     assert_frame_equal(data, out.to_pandas())
+
+
+@time_machine.travel(
+    datetime(2025, 1, 20, 13, 23, 30, tzinfo=zoneinfo.ZoneInfo("UTC")), tick=False
+)
+def test_parquet_project_scan(tmp_path):
+    """Test scanning an artifact using the parquet handler."""
+    location = tmp_path / "my-project-location"
+    location.mkdir()
+
+    project = Project(fpath=location / "project.json", mode="w")
+    with project.log("My experiment") as exp:
+        data = pd.DataFrame({"key": ["value"]})
+        exp.log_artifact(name="My data", value=data, handler="parquet")
+
+    project.save()
+
+    project_r = Project(fpath=location / "project.json", mode="r")
+    out = project_r["my-experiment"].scan_artifact(name="My data")
+
+    assert isinstance(out, ds.Dataset)
+    assert_frame_equal(data, out.to_table().to_pandas())
