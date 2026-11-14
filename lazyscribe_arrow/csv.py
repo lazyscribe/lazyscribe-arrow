@@ -2,10 +2,13 @@
 
 import logging
 from datetime import datetime
+from pathlib import Path
 from typing import Any, ClassVar
 
 import pyarrow as pa
+import pyarrow.dataset as ds
 from attrs import define
+from fsspec.spec import AbstractFileSystem
 from lazyscribe._utils import utcnow
 from lazyscribe.artifacts.base import Artifact
 from pyarrow import csv
@@ -70,6 +73,28 @@ class CSVArtifact(Artifact):
             A ``pyarrow`` table with the data.
         """
         return csv.read_csv(buf, **kwargs)
+
+    @classmethod
+    def scan(
+        cls, source: str | Path, fs: AbstractFileSystem | None = None, **kwargs: Any
+    ) -> ds.Dataset:
+        """Scan the CSV file using PyArrow.
+
+        Parameters
+        ----------
+        source : str | Path
+            The entire path to the CSV file.
+        fs : fsspec.spec.AbstractFileSystem, optional (default None)
+            The ``fsspec`` filesystem for reading the file.
+        **kwargs : Any
+            Keyword arguments for :py:meth:`pyarrow.dataset.dataset`.
+
+        Returns
+        -------
+        pyarrow.dataset.Dataset
+            The PyArrow dataset.
+        """
+        return ds.dataset(source, format="csv", filesystem=fs, **kwargs)
 
     @classmethod
     def write(cls, obj, buf, **kwargs):

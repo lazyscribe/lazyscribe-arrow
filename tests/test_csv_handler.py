@@ -61,6 +61,24 @@ def test_csv_handler_native(tmp_path):
     assert_frame_equal(data.to_pandas(), out.to_pandas())
 
 
+@time_machine.travel(
+    datetime(2025, 1, 20, 13, 23, 30, tzinfo=zoneinfo.ZoneInfo("UTC")), tick=False
+)
+def test_csv_scan(tmp_path):
+    """Test scanning a CSV file."""
+    location = tmp_path / "my-location"
+    location.mkdir()
+
+    data = pa.Table.from_pylist([{"key": "value"}])
+    handler = CSVArtifact.construct(name="My output file")
+    with open(location / handler.fname, "wb") as buf:
+        handler.write(data, buf)
+
+    dataset = handler.scan(location / handler.fname)
+    # Assert that the dataset unpacks to the same object
+    assert_frame_equal(dataset.to_table().to_pandas(), data.to_pandas())
+
+
 def test_csv_handler_raise_error(tmp_path):
     """Test raising an error based on a non-arrow object."""
     location = tmp_path / "my-empty-location"
