@@ -59,7 +59,6 @@ entry-points."lazyscribe.artifact_type".csv = "lazyscribe_arrow:CSVArtifact"
 entry-points."lazyscribe.artifact_type".parquet = "lazyscribe_arrow:ParquetArtifact"
 
 [tool.uv]
-sources.lazyscribe = { git = "https://github.com/lazyscribe/lazyscribe", branch = "scan-artifacts" }
 build-backend.module-name = "lazyscribe_arrow"
 build-backend.module-root = ""
 

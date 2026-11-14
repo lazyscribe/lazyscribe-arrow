@@ -3,15 +3,19 @@
 import pickle
 import zoneinfo
 from datetime import datetime
+from importlib.metadata import version
 
 import pandas as pd
 import pyarrow as pa
 import pyarrow.dataset as ds
 import pytest
 import time_machine
+from packaging.version import Version
 from pandas.testing import assert_frame_equal
 
 from lazyscribe_arrow import CSVArtifact
+
+LAZY_VERSION = Version(version("lazyscribe"))
 
 
 @time_machine.travel(
@@ -62,6 +66,10 @@ def test_csv_handler_native(tmp_path):
     assert_frame_equal(data.to_pandas(), out.to_pandas())
 
 
+@pytest.mark.skipif(
+    Version("2.4.0") > LAZY_VERSION,
+    reason="Artifact scanning requires lazyscribe 2.4.0",
+)
 @time_machine.travel(
     datetime(2025, 1, 20, 13, 23, 30, tzinfo=zoneinfo.ZoneInfo("UTC")), tick=False
 )
