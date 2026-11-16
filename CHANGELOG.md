@@ -1,3 +1,10 @@
+## v0.5.0 (2026-11-16)
+
+### Feat
+
+- adding the scan method for the csv handler
+- adding the scan method for the parquet handler
+
 ## v0.4.1 (2026-10-06)
 
 ### Fix
