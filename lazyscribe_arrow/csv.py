@@ -94,7 +94,7 @@ class CSVArtifact(Artifact):
         pyarrow.dataset.Dataset
             The PyArrow dataset.
         """
-        return ds.dataset(source, format="csv", filesystem=fs, **kwargs)
+        return ds.dataset(str(source), format="csv", filesystem=fs, **kwargs)
 
     @classmethod
     def write(cls, obj, buf, **kwargs):

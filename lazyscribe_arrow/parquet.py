@@ -94,7 +94,7 @@ class ParquetArtifact(Artifact):
         pyarrow.dataset.Dataset
             The PyArrow dataset.
         """
-        return ds.dataset(source, format="parquet", filesystem=fs, **kwargs)
+        return ds.dataset(str(source), format="parquet", filesystem=fs, **kwargs)
 
     @classmethod
     def write(cls, obj, buf, **kwargs):
