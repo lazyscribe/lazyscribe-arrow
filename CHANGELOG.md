@@ -1,3 +1,9 @@
+## v0.5.1 (2026-11-20)
+
+### Fix
+
+- casting paths to strings for remote filesystems
+
 ## v0.5.0 (2026-11-16)
 
 ### Feat
